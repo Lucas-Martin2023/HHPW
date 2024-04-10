@@ -1,6 +1,11 @@
-﻿namespace HHPW.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HHPW.Models;
+
+public class OrderItem
 {
-    public class OrderItem
-    {
-    }
+    public int Id { get; set; }
+    public int OrderId { get; set; }
+    public int ItemId { get; set; }
+
 }
