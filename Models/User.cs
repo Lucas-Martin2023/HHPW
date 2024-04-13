@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace HHPW.Models;
+﻿namespace HHPW.Models;
 
 public class User
 {
