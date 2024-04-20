@@ -9,10 +9,10 @@ namespace HHPW.Data
     {
         public static List<Item> Items = new List<Item>
         {   // seed data with Item
-            new Item { Id = 1, Name = "Widget", price = 10 },
-            new Item { Id = 2, Name = "Gadget", price = 20 },
-            new Item { Id = 3, Name = "Thingamajig", price = 15 },
-            new Item { Id = 4, Name = "Doohickey", price = 25 }
+            new Item { Id = 1, Name = "Pizza", price = 10 },
+            new Item { Id = 2, Name = "Wangs", price = 20 },
+            new Item { Id = 3, Name = "Ands", price = 15 },
+            new Item { Id = 4, Name = "Thangs", price = 25 }
         };
     }
 }

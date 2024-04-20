@@ -10,9 +10,9 @@ namespace HHPW.Data
     {
         public static List<User> Users = new List<User>
         {   // seed data with User
-            new User { Id = 1, Uid = 101, Name = "John" },
-            new User { Id = 2, Uid = 102, Name = "Jane" },
-            new User { Id = 3, Uid = 103, Name = "Alice" }
+            new User { Id = 1, Uid = "101", Name = "John" },
+            new User { Id = 2, Uid = "102", Name = "Jane" },
+            new User { Id = 3, Uid = "103", Name = "Alice" }
         };
     }
 }
