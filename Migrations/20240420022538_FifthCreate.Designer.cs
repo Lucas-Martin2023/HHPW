@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HHPW.Migrations
 {
     [DbContext(typeof(HHPWDbContext))]
-    partial class HHPWDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240420022538_FifthCreate")]
+    partial class FifthCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,8 +34,8 @@ namespace HHPW.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int>("price")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("price")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -43,26 +45,26 @@ namespace HHPW.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Pizza",
-                            price = 10
+                            Name = "Widget",
+                            price = 10m
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Wangs",
-                            price = 20
+                            Name = "Gadget",
+                            price = 20m
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Ands",
-                            price = 15
+                            Name = "Thingamajig",
+                            price = 15m
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Thangs",
-                            price = 25
+                            Name = "Doohickey",
+                            price = 25m
                         });
                 });
 
@@ -80,9 +82,6 @@ namespace HHPW.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -94,6 +93,9 @@ namespace HHPW.Migrations
 
                     b.Property<long>("Phone")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Tip")
                         .HasColumnType("integer");
@@ -112,13 +114,13 @@ namespace HHPW.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2024, 4, 18, 2, 7, 3, 456, DateTimeKind.Local).AddTicks(4075),
+                            Date = new DateTime(2024, 4, 17, 21, 25, 38, 218, DateTimeKind.Local).AddTicks(5355),
                             Email = "john@example.com",
-                            IsOpen = true,
                             Name = "John Doe",
-                            OrderType = "Phone",
-                            PaymentType = "Check",
+                            OrderType = "Online",
+                            PaymentType = "Credit Card",
                             Phone = 1234567890L,
+                            Status = true,
                             Tip = 5,
                             Total = 50m,
                             userId = 1
@@ -126,13 +128,13 @@ namespace HHPW.Migrations
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2024, 4, 19, 2, 7, 3, 458, DateTimeKind.Local).AddTicks(5729),
+                            Date = new DateTime(2024, 4, 18, 21, 25, 38, 220, DateTimeKind.Local).AddTicks(2614),
                             Email = "jane@example.com",
-                            IsOpen = false,
                             Name = "Jane Smith",
-                            OrderType = "In-Person",
-                            PaymentType = "Debit",
+                            OrderType = "In-store",
+                            PaymentType = "PayPal",
                             Phone = 9876543210L,
+                            Status = false,
                             Tip = 3,
                             Total = 30m,
                             userId = 2
@@ -140,13 +142,13 @@ namespace HHPW.Migrations
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2024, 4, 20, 2, 7, 3, 458, DateTimeKind.Local).AddTicks(5764),
+                            Date = new DateTime(2024, 4, 19, 21, 25, 38, 220, DateTimeKind.Local).AddTicks(2634),
                             Email = "alice@example.com",
-                            IsOpen = true,
                             Name = "Alice Johnson",
-                            OrderType = "Phone",
+                            OrderType = "Delivery",
                             PaymentType = "Cash",
                             Phone = 5551234567L,
+                            Status = true,
                             Tip = 4,
                             Total = 45m,
                             userId = 3
@@ -255,13 +257,16 @@ namespace HHPW.Migrations
 
             modelBuilder.Entity("HHPW.Models.OrderItem", b =>
                 {
-                    b.HasOne("HHPW.Models.Item", "Item")
-                        .WithMany()
+                    b.HasOne("HHPW.Models.Item", null)
+                        .WithMany("Orders")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("Item");
+            modelBuilder.Entity("HHPW.Models.Item", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

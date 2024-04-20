@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HHPW.Migrations
 {
     [DbContext(typeof(HHPWDbContext))]
-    partial class HHPWDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240420003147_ThirdCreate")]
+    partial class ThirdCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,25 +45,25 @@ namespace HHPW.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Pizza",
+                            Name = "Widget",
                             price = 10
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Wangs",
+                            Name = "Gadget",
                             price = 20
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Ands",
+                            Name = "Thingamajig",
                             price = 15
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Thangs",
+                            Name = "Doohickey",
                             price = 25
                         });
                 });
@@ -80,9 +82,6 @@ namespace HHPW.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -95,11 +94,14 @@ namespace HHPW.Migrations
                     b.Property<long>("Phone")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("Tip")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Total")
-                        .HasColumnType("numeric");
+                    b.Property<int>("Total")
+                        .HasColumnType("integer");
 
                     b.Property<int>("userId")
                         .HasColumnType("integer");
@@ -112,43 +114,43 @@ namespace HHPW.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2024, 4, 18, 2, 7, 3, 456, DateTimeKind.Local).AddTicks(4075),
+                            Date = new DateTime(2024, 4, 17, 19, 31, 46, 842, DateTimeKind.Local).AddTicks(6155),
                             Email = "john@example.com",
-                            IsOpen = true,
                             Name = "John Doe",
-                            OrderType = "Phone",
-                            PaymentType = "Check",
+                            OrderType = "Online",
+                            PaymentType = "Credit Card",
                             Phone = 1234567890L,
+                            Status = true,
                             Tip = 5,
-                            Total = 50m,
+                            Total = 50,
                             userId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2024, 4, 19, 2, 7, 3, 458, DateTimeKind.Local).AddTicks(5729),
+                            Date = new DateTime(2024, 4, 18, 19, 31, 46, 844, DateTimeKind.Local).AddTicks(6504),
                             Email = "jane@example.com",
-                            IsOpen = false,
                             Name = "Jane Smith",
-                            OrderType = "In-Person",
-                            PaymentType = "Debit",
+                            OrderType = "In-store",
+                            PaymentType = "PayPal",
                             Phone = 9876543210L,
+                            Status = false,
                             Tip = 3,
-                            Total = 30m,
+                            Total = 30,
                             userId = 2
                         },
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2024, 4, 20, 2, 7, 3, 458, DateTimeKind.Local).AddTicks(5764),
+                            Date = new DateTime(2024, 4, 19, 19, 31, 46, 844, DateTimeKind.Local).AddTicks(6528),
                             Email = "alice@example.com",
-                            IsOpen = true,
                             Name = "Alice Johnson",
-                            OrderType = "Phone",
+                            OrderType = "Delivery",
                             PaymentType = "Cash",
                             Phone = 5551234567L,
+                            Status = true,
                             Tip = 4,
-                            Total = 45m,
+                            Total = 45,
                             userId = 3
                         });
                 });
@@ -161,9 +163,6 @@ namespace HHPW.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ItemId")
                         .HasColumnType("integer");
 
@@ -174,41 +173,38 @@ namespace HHPW.Migrations
 
                     b.HasIndex("ItemId");
 
+                    b.HasIndex("OrderId");
+
                     b.ToTable("OrderItems");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Amount = 0,
                             ItemId = 1,
                             OrderId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Amount = 0,
                             ItemId = 2,
                             OrderId = 1
                         },
                         new
                         {
                             Id = 3,
-                            Amount = 0,
                             ItemId = 3,
                             OrderId = 2
                         },
                         new
                         {
                             Id = 4,
-                            Amount = 0,
                             ItemId = 4,
                             OrderId = 3
                         },
                         new
                         {
                             Id = 5,
-                            Amount = 0,
                             ItemId = 1,
                             OrderId = 3
                         });
@@ -255,13 +251,27 @@ namespace HHPW.Migrations
 
             modelBuilder.Entity("HHPW.Models.OrderItem", b =>
                 {
-                    b.HasOne("HHPW.Models.Item", "Item")
-                        .WithMany()
+                    b.HasOne("HHPW.Models.Item", null)
+                        .WithMany("Orders")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Item");
+                    b.HasOne("HHPW.Models.Order", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("HHPW.Models.Item", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("HHPW.Models.Order", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
